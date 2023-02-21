@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Dark Mode  */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #000000;
+}
+
+.card {
+  background-color: #1b2b34;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  width: 40vw;
+  position: absolute;
+  top: calc(50% - 200px);
+  left: 30%;
+  color: #fff;
+}
+
+.card h3 {
+  color: #fff;
+  text-align: center;
+}
+
+#password {
+  border-radius: 5px;
+
+  box-shadow: rgba(255, 255, 255, 0.25) 0px 30px 60px -12px inset,
+    rgba(255, 255, 255, 0.3) 0px 18px 36px -18px inset;
+  /* box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset; */
+  position: relative;
+}
+#password i:nth-child(2) {
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.checked {
+  color: red !important;
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    width: 80vw;
+    left: 10%;
+  }
+}
