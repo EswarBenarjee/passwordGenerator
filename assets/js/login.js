@@ -55,3 +55,18 @@ loginForm.addEventListener("submit", (e) => {
 });
 
 ifSignedInRedirectToHome();
+
+let togglers1 = document.querySelectorAll(".navbar-toggler");
+toggleIndex1 = 0;
+let navbarNavAltMarkup1 = document.querySelector("#navbarNavAltMarkup");
+togglers1.forEach((toggler) => {
+  toggler.addEventListener("click", () => {
+    if (toggleIndex1 == 0) {
+      navbarNavAltMarkup1.style.display = "block";
+      toggleIndex1 = 1;
+    } else {
+      navbarNavAltMarkup1.style.display = "none";
+      toggleIndex1 = 0;
+    }
+  });
+});

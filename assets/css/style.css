@@ -9,12 +9,13 @@ body {
   font-family: "Poppins", sans-serif;
   background-color: #000000;
   min-height: 100vh;
-  width: 100vw;
   overflow-x: hidden;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  overflow: hidden;
+  width: 100vw;
 }
 
 /* Logo  */
@@ -55,8 +56,13 @@ h2 span {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  width: 40vw;
+  width: 50vw;
   color: #fff;
+}
+@media only screen and (max-width: 992px) {
+  .card {
+    width: 80vw;
+  }
 }
 
 .card h3 {
@@ -71,7 +77,6 @@ h2 span {
 
 #password {
   border-radius: 5px;
-
   box-shadow: rgba(255, 255, 255, 0.25) 0px 30px 60px -12px inset,
     rgba(255, 255, 255, 0.3) 0px 18px 36px -18px inset;
   position: relative;
@@ -114,6 +119,14 @@ h2 span {
   border-radius: 5px;
   text-align: center;
   display: block;
+}
+
+/* Passwords */
+table tr td {
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 10px;
+  text-align: center;
 }
 
 /* Footer  */

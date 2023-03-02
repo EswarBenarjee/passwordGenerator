@@ -84,7 +84,7 @@ function GeonTheGenerator(length = 20) {
 const capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const smalls = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "0123456789";
-const symbols = '!@#$%^&*()_-+=~`{[}]|:;"<,>.?/';
+const symbols = "!@#$%^&*()_-+=~{[}]|:;<,>.?/";
 let characterLength =
   capitals.length + smalls.length + numbers.length + symbols.length;
 
@@ -338,3 +338,32 @@ savePasswordDiv.addEventListener("click", savePassword);
 savePasswordWithNameDiv.addEventListener("click", savePasswordWithName);
 
 let alertDiv = document.getElementById("alert");
+
+queryString = window.location.search;
+queryString = queryString.replace("?", "");
+queryString = queryString.split("&");
+for (let i = 0; i < queryString.length; i++) {
+  queryString[i] = queryString[i].split("=");
+  if (queryString[i][0] == "reference") {
+    referenceInput.value = queryString[i][1];
+  } else if (queryString[i][0] == "link") {
+    linkInput.value = queryString[i][1];
+  } else if (queryString[i][0] == "password") {
+    replaceMe.innerHTML = queryString[i][1];
+  }
+}
+
+let togglers = document.querySelectorAll(".navbar-toggler");
+toggleIndex = 0;
+let navbarNavAltMarkup = document.querySelector("#navbarNavAltMarkup");
+togglers.forEach((toggler) => {
+  toggler.addEventListener("click", () => {
+    if (toggleIndex == 0) {
+      navbarNavAltMarkup.style.display = "block";
+      toggleIndex = 1;
+    } else {
+      navbarNavAltMarkup.style.display = "none";
+      toggleIndex = 0;
+    }
+  });
+});
