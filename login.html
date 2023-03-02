@@ -31,20 +31,20 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <i class="fa-solid fa-bars"></i>
+          <span class="navbar-toggler-icon"></span>
         </button>
         <div
           class="collapse navbar-collapse justify-content-end"
           id="navbarNavAltMarkup"
         >
           <div class="navbar-nav">
-            <a class="nav-link current" aria-current="page" href="index.html"
-              >Home</a
-            >
+            <a class="nav-link" href="index.html">Home</a>
             <a class="nav-link" id="passwordPage" href="passwords.html"
               >Passwords</a
             >
-            <a class="nav-link" id="loginPage" href="login.html">Login</a>
+            <a class="nav-link current" id="loginPage" href="login.html"
+              >Login</a
+            >
             <a class="nav-link" id="profilePage" href="profile.html">Profile</a>
             <a
               class="nav-link"
@@ -58,60 +58,42 @@
       </div>
     </nav>
 
+    <!-- Alert  -->
+    <div class="alert text-light" id="alert"></div>
+
     <!-- Main Body-->
-    <div class="generator-div card p-5">
-      <h3 class="mb-4">Password Generator</h3>
-
-      <div id="password" class="py-2 px-4 mb-2">
-        <span class="p-3" id="replaceMe">Password will be generated here</span>
-        <i class="fa-solid fa-copy" id="copyMe"></i>
-        <i class="fa-solid fa-check d-none"></i>
-      </div>
-
-      <div class="row m-3">
-        <div class="col-md-6">
+    <div class="card p-5 m-5">
+      <form action="#" id="loginForm" class="form-floating">
+        <h2><span>Login</span> Form</h2>
+        <div class="form-floating mb-3">
           <input
-            type="checkbox"
-            name="toggle1"
-            class="mobileToggle mr-2"
-            id="capitals"
-            checked
+            type="email"
+            class="form-control"
+            id="floatingInput email"
+            placeholder="name@example.com"
           />
-          Capitals
+          <label for="floatingInput" class="text-dark">Email address</label>
         </div>
-        <div class="col-md-6">
+        <div class="form-floating">
           <input
-            type="checkbox"
-            name="toggle1"
-            class="mobileToggle mr-2"
-            id="smalls"
-            checked
+            type="password"
+            class="form-control"
+            id="floatingPassword pswd"
+            placeholder="Password"
           />
-          Smalls
+          <label for="floatingPassword" class="text-dark">Password</label>
         </div>
-        <div class="col-md-6">
+        <div class="mt-3">
           <input
-            type="checkbox"
-            name="toggle1"
-            class="mobileToggle mr-2"
-            id="numbers"
-            checked
+            type="submit"
+            value="Submit"
+            class="btn btn-primary d-block m-auto w-100"
           />
-          Numbers
         </div>
-        <div class="col-md-6">
-          <input
-            type="checkbox"
-            name="toggle1"
-            class="mobileToggle mr-2"
-            id="symbols"
-            checked
-          />
-          Symbols
+        <div class="mt-4 text-center">
+          New user? <a href="register.html">Register Here</a>
         </div>
-      </div>
-
-      <button class="btn btn-primary" id="generator">Generate!</button>
+      </form>
     </div>
 
     <div class="footer">
@@ -135,4 +117,5 @@
   ></script>
   <!-- Custom JS  -->
   <script src="assets/js/script.js"></script>
+  <script src="assets/js/login.js"></script>
 </html>

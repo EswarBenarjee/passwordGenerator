@@ -1,3 +1,55 @@
+function isSignedIn() {
+  let passwordPage = document.getElementById("passwordPage");
+  let loginPage = document.getElementById("loginPage");
+  let profilePage = document.getElementById("profilePage");
+  let logoutPage = document.getElementById("logoutPage");
+
+  let token = localStorage.getItem("passwordManagerToken");
+  let id = decrypt(token);
+
+  if (!token) {
+    passwordPage.style.display = "none";
+    loginPage.style.display = "inline";
+    profilePage.style.display = "none";
+    logoutPage.style.display = "none";
+    return false;
+  }
+
+  fetch("https://passwordmanager-dc248-default-rtdb.firebaseio.com/users.json")
+    .then((res) => res.json())
+    .then((data) => {
+      for (let key in data) {
+        if (key === id) {
+          user = key;
+          break;
+        }
+      }
+      if (!user) {
+        passwordPage.style.display = "none";
+        loginPage.style.display = "inline";
+        profilePage.style.display = "none";
+        logoutPage.style.display = "none";
+      } else {
+        passwordPage.style.display = "inline";
+        loginPage.style.display = "none";
+        profilePage.style.display = "inline";
+        logoutPage.style.display = "inline";
+      }
+    })
+    .catch((err) => {
+      passwordPage.style.display = "none";
+      loginPage.style.display = "inline";
+      profilePage.style.display = "none";
+      logoutPage.style.display = "none";
+    });
+}
+isSignedIn();
+
+function logout() {
+  localStorage.removeItem("passwordManagerToken");
+  window.location.reload();
+}
+
 function GeonTheGenerator(length = 20) {
   let password = "";
   let characters = "";
@@ -23,7 +75,6 @@ function GeonTheGenerator(length = 20) {
   }
 
   for (let i = 0; i < length; i++) {
-    console.log(Math.floor(Math.random() * characters.length - 1));
     password += characters[Math.floor(Math.random() * (characters.length - 1))];
   }
   return password;
@@ -57,3 +108,36 @@ copyMe.addEventListener("click", () => {
     copyMe.classList = "fa-solid fa-copy";
   }, 2000);
 });
+
+function encrypt(input) {
+  output = "";
+  for (var i = 0; i < input.length; i++) {
+    output += input[i].charCodeAt(0).toString(2) + " ";
+  }
+  return output;
+}
+
+function decrypt(input) {
+  if (!input) return;
+  output = "";
+  input = input.split(" ");
+  for (var i = 0; i < input.length; i++) {
+    output += String.fromCharCode(parseInt(input[i], 2));
+  }
+  output = output.substring(0, output.length - 12);
+  return output;
+}
+
+function ifSignedInRedirectToHome() {
+  fetch("https://passwordmanager-dc248-default-rtdb.firebaseio.com/users.json")
+    .then((res) => res.json())
+    .then((data) => {
+      let token = localStorage.getItem("passwordManagerToken");
+      let id = decrypt(token);
+      for (const key in data) {
+        if (id == key) {
+          window.location.replace("index.html");
+        }
+      }
+    });
+}
