@@ -24,7 +24,6 @@ function profileUpdate() {
     return false;
   }
 
-  console.log("1");
   fetch("https://passwordmanager-dc248-default-rtdb.firebaseio.com/users.json")
     .then((res) => res.json())
     .then((data) => {
@@ -34,26 +33,24 @@ function profileUpdate() {
         if (key === id && data[key]["password"] === oldpswdValue) {
           flag = true;
 
-          updatedUser = {
+          data[id] = {
             name: newprofilename,
             email: newprofileemail,
             password: newprofilepswd,
           };
 
           fetch(
-            "https://passwordmanager-dc248-default-rtdb.firebaseio.com/users/" +
-              key,
+            "https://passwordmanager-dc248-default-rtdb.firebaseio.com/users.json",
             {
-              method: "POST",
+              method: "PUT",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(updatedUser),
+              body: JSON.stringify(data),
             }
           )
             .then((res) => res.json())
             .then((data) => {
-              console.log("2");
               alert.innerHTML = "Data updated successfully";
               alert.classList.add("success");
               setTimeout(() => {
@@ -62,7 +59,6 @@ function profileUpdate() {
               }, 2000);
             })
             .catch((err) => {
-              console.log("3");
               alert.innerHTML = "Oops, something went wrong";
               alert.classList.add("danger");
               setTimeout(() => {
@@ -74,7 +70,7 @@ function profileUpdate() {
         }
       }
       if (!flag) {
-        alert.innerHTML = "Previous Password does not match";
+        alert.innerHTML = "Invalid Credentials";
         alert.classList.add("danger");
         setTimeout(() => {
           alert.innerHTML = "";

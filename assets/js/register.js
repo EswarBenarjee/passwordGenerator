@@ -96,20 +96,20 @@ function register() {
         })
         .catch((err) => {
           alert.innerHTML = "Oops, something went wrong";
-          alert.classList.add("success");
+          alert.classList.add("danger");
           setTimeout(() => {
             alert.innerHTML = "";
-            alert.classList.remove("success");
+            alert.classList.remove("danger");
           }, 2000);
           return false;
         });
     })
     .catch((err) => {
       alert.innerHTML = "Oops, something went wrong";
-      alert.classList.add("success");
+      alert.classList.add("danger");
       setTimeout(() => {
         alert.innerHTML = "";
-        alert.classList.remove("success");
+        alert.classList.remove("danger");
       }, 2000);
       return false;
     });

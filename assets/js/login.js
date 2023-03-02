@@ -5,7 +5,6 @@ function login() {
   fetch("https://passwordmanager-dc248-default-rtdb.firebaseio.com/users.json")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       for (const key in data) {
         if (data[key].email == username && data[key].password == password) {
           user = key;

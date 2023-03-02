@@ -77,6 +77,7 @@ function GeonTheGenerator(length = 20) {
   for (let i = 0; i < length; i++) {
     password += characters[Math.floor(Math.random() * (characters.length - 1))];
   }
+  localStorage.setItem("generatedPasswordManagerPassword", password);
   return password;
 }
 
@@ -95,6 +96,12 @@ let isSmallAvailable = document.getElementById("smalls");
 let isNumberAvailable = document.getElementById("numbers");
 let isSymbolAvailable = document.getElementById("symbols");
 let length = document.getElementById("length");
+
+if (localStorage.getItem("generatedPasswordManagerPassword")) {
+  replaceMe.innerHTML = localStorage.getItem(
+    "generatedPasswordManagerPassword"
+  );
+}
 
 generator.addEventListener("click", function () {
   replaceMe.innerHTML = GeonTheGenerator();
@@ -141,3 +148,193 @@ function ifSignedInRedirectToHome() {
       }
     });
 }
+
+function savePassword() {
+  let token = localStorage.getItem("passwordManagerToken");
+  let id = decrypt(token);
+
+  if (!token) {
+    alertDiv.innerHTML = "Please Login to save";
+    alertDiv.classList.add("danger");
+    setTimeout(() => {
+      alertDiv.innerHTML = "";
+      alertDiv.classList.remove("danger");
+    }, 2000);
+    return false;
+  }
+
+  fetch("https://passwordmanager-dc248-default-rtdb.firebaseio.com/users.json")
+    .then((res) => res.json())
+    .then((data) => {
+      for (let key in data) {
+        if (key === id) {
+          user = key;
+          break;
+        }
+      }
+      if (!user) {
+        alertDiv.innerHTML = "Please Login to save 2";
+        alertDiv.classList.add("danger");
+        setTimeout(() => {
+          alertDiv.innerHTML = "";
+          alertDiv.classList.remove("danger");
+        }, 2000);
+        return false;
+      } else {
+        savePasswordDiv.style.display = "none";
+        savePasswordWithNameDiv.style.display = "block";
+        referenceDiv.style.display = "block";
+      }
+    })
+    .catch((err) => {
+      alertDiv.innerHTML = "Please Login to save 3";
+      alertDiv.classList.add("danger");
+      setTimeout(() => {
+        alertDiv.innerHTML = "";
+        alertDiv.classList.remove("danger");
+      }, 2000);
+      return false;
+    });
+}
+function savePasswordWithName() {
+  currRef = referenceInput.value.toLowerCase();
+  currLink = linkInput.value.toLowerCase();
+  currPswd = replaceMe.innerHTML;
+  if (currRef == "") {
+    alertDiv.innerHTML = "Reference Name is Compulsory";
+    alertDiv.classList.add("danger");
+    setTimeout(() => {
+      alertDiv.innerHTML = "";
+      alertDiv.classList.remove("danger");
+    }, 2000);
+    remove();
+  }
+
+  fetch(
+    "https://passwordmanager-dc248-default-rtdb.firebaseio.com/passwords.json"
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      id = decrypt(localStorage.getItem("passwordManagerToken"));
+
+      console.log(data);
+      if (!data) {
+        newData = {};
+        newData[id] = {
+          link: currLink.toLowerCase(),
+          reference: currRef.toLowerCase(),
+          password: currPswd,
+        };
+
+        fetch(
+          "https://passwordmanager-dc248-default-rtdb.firebaseio.com/passwords.json",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newData),
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            alertDiv.innerHTML = "Password has been saved";
+            alertDiv.classList.add("success");
+            setTimeout(() => {
+              alertDiv.innerHTML = "";
+              alertDiv.classList.remove("success");
+            }, 2000);
+          })
+          .catch((err) => {
+            alertDiv.innerHTML = "Oops, something went wrong";
+            alertDiv.classList.add("danger");
+            setTimeout(() => {
+              alertDiv.innerHTML = "";
+              alertDiv.classList.remove("danger");
+            }, 2000);
+          });
+      } else {
+        isLinkAlreadyPresent = false;
+        for (key in data) {
+          isLinkAlreadyPresent = false;
+          for (userid in data[key]) {
+            if (userid == id) {
+              if (data[key][id]["reference"] == currRef) {
+                data[key][id]["reference"] = currRef;
+                data[key][id]["password"] = currPswd;
+                data[key][id]["link"] = currLink;
+
+                fetch(
+                  "https://passwordmanager-dc248-default-rtdb.firebaseio.com/passwords.json",
+                  {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                  }
+                ).then((res) => {
+                  alertDiv.innerHTML = "Password has been saved";
+                  alertDiv.classList.add("success");
+                  setTimeout(() => {
+                    alertDiv.innerHTML = "";
+                    alertDiv.classList.remove("success");
+                  }, 2000);
+                });
+
+                isLinkAlreadyPresent = true;
+                break;
+              }
+            }
+          }
+          if (isLinkAlreadyPresent) break;
+        }
+        if (!isLinkAlreadyPresent) {
+          newData = {};
+          newData[id] = {
+            link: currLink.toLowerCase(),
+            reference: currRef.toLowerCase(),
+            password: currPswd,
+          };
+
+          fetch(
+            "https://passwordmanager-dc248-default-rtdb.firebaseio.com/passwords.json",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newData),
+            }
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              alertDiv.innerHTML = "Password has been saved";
+              alertDiv.classList.add("success");
+              setTimeout(() => {
+                alertDiv.innerHTML = "";
+                alertDiv.classList.remove("success");
+              }, 2000);
+            })
+            .catch((err) => {
+              alertDiv.innerHTML = "Oops, something went wrong";
+              alertDiv.classList.add("danger");
+              setTimeout(() => {
+                alertDiv.innerHTML = "";
+                alertDiv.classList.remove("danger");
+              }, 2000);
+            });
+        }
+      }
+    });
+}
+
+let savePasswordDiv = document.getElementById("savePassword");
+let savePasswordWithNameDiv = document.getElementById("savePasswordWithName");
+let referenceDiv = document.getElementById("referenceDiv");
+let referenceInput = document.getElementById("floatingInput pswdreference");
+let linkInput = document.getElementById("floatingInput pswdlink");
+savePasswordDiv.addEventListener("click", savePassword);
+savePasswordWithNameDiv.addEventListener("click", savePasswordWithName);
+
+let alertDiv = document.getElementById("alert");

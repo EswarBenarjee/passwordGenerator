@@ -58,6 +58,9 @@
       </div>
     </nav>
 
+    <!-- Alert  -->
+    <div class="alert text-light" id="alert"></div>
+
     <!-- Main Body-->
     <div class="generator-div card p-5">
       <h3 class="mb-4">Password Generator</h3>
@@ -111,7 +114,40 @@
         </div>
       </div>
 
-      <button class="btn btn-primary" id="generator">Generate!</button>
+      <div class="row" id="referenceDiv">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInput pswdreference"
+            placeholder="Reference"
+          />
+          <label for="floatingInput" class="text-dark">Reference</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInput pswdlink"
+            placeholder="Link"
+          />
+          <label for="floatingInput" class="text-dark">Link</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <button class="btn btn-primary w-100" id="generator">
+            Generate!
+          </button>
+        </div>
+        <div class="col-md-6">
+          <button class="btn btn-success w-100" id="savePassword">Save</button>
+          <button class="btn btn-success w-100" id="savePasswordWithName">
+            Save
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="footer">

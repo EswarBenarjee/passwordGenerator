@@ -64,6 +64,11 @@ h2 span {
   text-align: center;
 }
 
+#referenceDiv,
+#savePasswordWithName {
+  display: none;
+}
+
 #password {
   border-radius: 5px;
 
